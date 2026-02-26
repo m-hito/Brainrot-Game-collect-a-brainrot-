@@ -78,3 +78,24 @@ workspace
                   └── SpawnPlate ( we use this to spawn npcs)
                   └── (building blocsk) no functionality
 ```
+
+Folder Heirachy NPCs📂 : 
+
+```
+ReplicatedStorage
+      └── NPCs
+            └── Haunter 
+            |      └── Head
+            |            └── NameGui
+            |                  └── NpcName (text)
+            |            └── PerSecondGui  
+            |                    └── CashPerSecond
+            |            └── RarityGui
+            |                  └── Rarity
+            |            └── TimerGui  
+            |                    └── Time
+            |            └── Value (Stores how much value to buy) gui
+            |                  └── TextLabel
+            └── hell nah
+            └── noob
+```
