@@ -2,8 +2,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local remotes = ReplicatedStorage:WaitForChild("Remote")
 local CoreEvent = remotes.CoreEvent
 local Bases = game.Workspace.Bases:GetChildren()
+local Map = workspace:WaitForChild("Map")
 local Players = game:GetService("Players")
 local tweenService = game:GetService("TweenService")
+local SafeZone = Map.SafeZone
 
 local function SetProperty(Player)
 	local configuration = Instance.new("Folder")  -- better than Configuration object
@@ -11,12 +13,32 @@ local function SetProperty(Player)
 	configuration.Parent = Player
 
 	local baseValue = Instance.new("ObjectValue")
-	baseValue.Name = "Base"
+	baseValue.Name = "Base" 
 	baseValue.Parent = configuration
 	
 end
 
 local function SetBase(player)
+	
+	
+	--if player.Name == "hgsis1290GotHaked" then
+	--	local char = player.Character or player.CharacterAdded:Wait()
+	--	char.Humanoid.WalkSpeed = 200
+		
+
+	--	local base = workspace.Bases.Base0
+	--	local Sign = base.Floors.Floor1.Build.Signs.SignsPart
+	--	local Text = Sign.PlayerNameBase.Owner.OwnerText
+
+	--	base.Configuration.Player.Value = player
+	--	player.Configuration.Base.Value = base
+	--	Text.Text = player.Name.." 's Base"
+	--	print("assigning "..player.Name.." to "..base.Name)
+
+	--	char:PivotTo(base.Spawn.CFrame)
+	--	return base
+	--end
+	
 	if not player then return end 
 	local char = player.Character or player.CharacterAdded:Wait()
 	
@@ -38,8 +60,23 @@ local function SetBase(player)
 	player.Configuration.Base.Value = base
 	Text.Text = player.Name.." 's Base"
 	print("assigning "..player.Name.." to "..base.Name)
-	
+
 	char:PivotTo(base.Spawn.CFrame)
+	char.Humanoid.WalkSpeed = 200	
+	
+	local floor = base.Floors.Floor1.Build
+	
+	
+	for _, v in pairs(floor.Platforms:GetDescendants()) do
+		if not v:IsA("Model") then continue end
+		
+		v.Collect.Text.CanCollide = false
+		print(v)
+	end
+	
+	local PutBrainrot = Instance.new("ProximityPrompt")
+	
+	
 	return base
 end
 
@@ -93,6 +130,8 @@ Players.PlayerAdded:Connect(function(player)
 	
 	-- 2) Now that config exists, assign base
 	SetBase(player)
+	
+	SetLock(player, 10)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
@@ -132,7 +171,7 @@ CoreEvent.OnServerEvent:Connect(function(Player, eventType)
 
 		for i, v in pairs(Doors.Door1.Lasers:GetChildren()) do
 			v.Transparency = 0.5
-			print(v.Transparency)
+			--print(v.Transparency)
 		end
 		
 		SetLock(Player, 10)
